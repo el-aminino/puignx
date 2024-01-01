@@ -79,7 +79,9 @@ if os.path.exists(root_doc) == False :
                 print(tstr)
             else:
                 os.mkdir(tstr)
-
+        shutil.chown(group='www-data',path=root_doc)
     
     if os.path.exists(root_doc) == True :
         print("Directory created !")
+else :
+    shutil.chown(group='www-data',path=root_doc)
