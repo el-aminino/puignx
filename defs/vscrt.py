@@ -75,7 +75,7 @@ if os.path.exists(root_doc) == False :
         root_ex.pop(0)
         for i in root_ex :
             tstr = tstr+i+'/'
-            if os.path.exists :
+            if os.path.exists(tstr) :
                 print(tstr)
             else:
                 os.mkdir(i)
