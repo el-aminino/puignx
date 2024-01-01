@@ -6,9 +6,8 @@ for i in listdir :
     file = config_path+i
     
     with open(file,"r") as f :
-        if "server_name" in f.readline():
-            print(type(f.readline))
-
+        print(f)
+        #if "server_name" in f.readline():
 
 
 
