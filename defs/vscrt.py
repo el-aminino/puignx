@@ -1,5 +1,6 @@
 import jinja2
 import subprocess
+import os
 
 nginx_template = """
 server {
@@ -58,3 +59,6 @@ with open(config_path, 'w') as f:
 subprocess.run(['ln', '-s', config_path, '/etc/nginx/sites-enabled/'])
 
 subprocess.run(['systemctl', 'reload', 'nginx'])
+
+if os.path.exists(config_data['document_root']) == False :
+    print("document root is unavailable ! it may not exist.")
