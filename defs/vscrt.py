@@ -61,10 +61,24 @@ subprocess.run(['ln', '-s', config_path, '/etc/nginx/sites-enabled/'])
 
 subprocess.run(['systemctl', 'reload', 'nginx'])
 
-if os.path.exists(config_data['document_root']) == False :
+
+root_doc = config_data['document_root']
+if os.path.exists(root_doc) == False :
     print("document root is unavailable ! it may not exist.")
     print("Creating Directory")
-    os.mkdir(config_data['document_root'])
+    try :
+        os.mkdir(root_doc)
+    except FileNotFoundError :
+        tstr = ''
+        root_ex = root_doc.split('/')
+        for i in root_ex :
+            tstr.join('/')
+            tstr.join(i)
+            if os.path.exists :
+                print(tstr)
+            else:
+                os.mkdir(i)
+
     shutil.chown(group='www-data',path=config_data['document_root'])
     if os.path.exists(config_data['document_root']) == True :
         print("Directory created !")
