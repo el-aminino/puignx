@@ -1,6 +1,7 @@
 import jinja2
 import subprocess
 import os
+import shutil
 
 nginx_template = """
 server {
@@ -62,3 +63,8 @@ subprocess.run(['systemctl', 'reload', 'nginx'])
 
 if os.path.exists(config_data['document_root']) == False :
     print("document root is unavailable ! it may not exist.")
+    print("Creating Directory")
+    os.mkdir(config_data['document_root'])
+    shutil.chown(group='www-data',path=config_data['document_root'])
+    if os.path.exists(config_data['document_root']) == True :
+        print("Directory created !")
