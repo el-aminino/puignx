@@ -78,7 +78,7 @@ if os.path.exists(root_doc) == False :
             if os.path.exists(tstr) :
                 print(tstr)
             else:
-                os.mkdir(i)
+                os.mkdir(tstr)
 
     
     if os.path.exists(root_doc) == True :
