@@ -72,12 +72,13 @@ if os.path.exists(root_doc) == False :
     except FileNotFoundError :
         tstr = '/'
         root_ex = root_doc.split('/')
+        root_ex.pop(0)
         for i in root_ex :
             tstr = tstr+i+'/'
-            #if os.path.exists :
-            print(tstr)
-            #else:
-            #    os.mkdir(i)
+            if os.path.exists :
+                print(tstr)
+            else:
+                os.mkdir(i)
 
     
     if os.path.exists(root_doc) == True :
