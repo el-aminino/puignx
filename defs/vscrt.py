@@ -70,11 +70,10 @@ if os.path.exists(root_doc) == False :
         os.mkdir(root_doc)
         shutil.chown(group='www-data',path=root_doc)
     except FileNotFoundError :
-        tstr = ''
+        tstr = '/'
         root_ex = root_doc.split('/')
         for i in root_ex :
-            tstr = tstr+'/'
-            tstr = tstr+i
+            tstr = tstr+i+'/'
             #if os.path.exists :
             print(tstr)
             #else:
