@@ -73,8 +73,8 @@ if os.path.exists(root_doc) == False :
         tstr = ''
         root_ex = root_doc.split('/')
         for i in root_ex :
-            tstr.join('/')
-            tstr.join(i)
+            tstr = tstr+'/'
+            tstr = tstr+i
             #if os.path.exists :
             print(tstr)
             #else:
