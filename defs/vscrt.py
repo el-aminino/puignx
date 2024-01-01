@@ -68,17 +68,18 @@ if os.path.exists(root_doc) == False :
     print("Creating Directory")
     try :
         os.mkdir(root_doc)
+        shutil.chown(group='www-data',path=root_doc)
     except FileNotFoundError :
         tstr = ''
         root_ex = root_doc.split('/')
         for i in root_ex :
             tstr.join('/')
             tstr.join(i)
-            if os.path.exists :
-                print(tstr)
-            else:
-                os.mkdir(i)
+            #if os.path.exists :
+            print(tstr)
+            #else:
+            #    os.mkdir(i)
 
-    shutil.chown(group='www-data',path=config_data['document_root'])
-    if os.path.exists(config_data['document_root']) == True :
+    
+    if os.path.exists(root_doc) == True :
         print("Directory created !")
