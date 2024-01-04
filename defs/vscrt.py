@@ -3,6 +3,8 @@ import subprocess
 import os
 import shutil
 
+
+#This is a Nginx config sample 
 nginx_template = """
 server {
     listen {{ port }};
@@ -19,16 +21,21 @@ server {
 }
 """
 
+
+
+#This configurations will be applied
 config_data = {
     'port': 80,
     'server_name': 'example.com',
     'document_root': '/var/www/html',  
 }
 
-port = input("Please Enter Listen port: ")
-srv_name = input("Please Enter Server Name: ")
-doc_root = input("Please Enter Root Directory for virtual server : ")
+#take values from user for configurations
+port = input("Please Enter Listen port (Default: 80): ")
+srv_name = input("Please Enter Server Name (default: Example.com): ")
+doc_root = input("Please Enter Root Directory for virtual server (Default: /var/www/html ) : ")
 
+#check the values existance
 if port :
     config_data['port'] = port
 
@@ -53,15 +60,15 @@ else :
 
 
 
-
+#write Nginx configurations into sites-available
 with open(config_path, 'w') as f:
     f.write(nginx_config)
-
+#create a soft link for site-available into sites-enabled
 subprocess.run(['ln', '-s', config_path, '/etc/nginx/sites-enabled/'])
-
+#restart Nginx service
 subprocess.run(['systemctl', 'reload', 'nginx'])
 
-
+#Checking Document Root existance 
 root_doc = config_data['document_root']
 if os.path.exists(root_doc) == False :
     print("document root is unavailable ! it may not exist.")
@@ -85,3 +92,13 @@ if os.path.exists(root_doc) == False :
         print("Directory created !")
 else :
     shutil.chown(group='www-data',path=root_doc)
+
+#Check index existance
+print("Checking Index existance")
+index_file = root_doc+'/'+"index.html"
+if os.path.exists(index_file) == True :
+    print("index exist!")
+else :
+    print("index not exist \n Creating Index file")
+    shutil.copy(src="../pages/default_index.html", dst=index_file)
+    
