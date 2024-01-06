@@ -24,14 +24,16 @@ def server_in_files(dir):
 def find_srv_name(dir) :
     list_dict = server_in_files(dir)
     key_list = list(list_dict.keys())
-    
+    val_list=list(list_dict.values())
     for i in key_list :
-        val_list=[]
+        val_list=list_dict[i]
         print(val_list)
         with open (dir+'/'+i) as f :
-            val_list = list_dict[i]
-            for j in val_list:            
-                    print(f.readlines(j) , j)
+            print(f)
+            for j in val_list:
+                print(str(f.readline(j)) , j)
+
+
                     
             
             
