@@ -21,12 +21,28 @@ def server_in_files(dir):
         lines_dict[i]=lines_list
     return lines_dict
 
+def find_srv_name(dir) :
+    list_dict = server_in_files(dir)
+    key_list = list(list_dict.keys())
+    
+    for i in key_list :
+        val_list=[]
+        print(val_list)
+        with open (dir+'/'+i) as f :
+            val_list = list_dict[i]
+            for j in val_list:            
+                    print(f.readlines(j) , j)
+                    
+            
+            
+
+
 
 
 
 #check configurations in Sites-enabled
 def check_se(dn):
-    server_in_files(se_dir)
+    find_srv_name(se_dir)
 
                  
 
