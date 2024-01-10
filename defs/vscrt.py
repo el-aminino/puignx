@@ -2,7 +2,7 @@ import jinja2
 import subprocess
 import os
 import shutil
-
+import re
 
 #This is a Nginx config sample 
 nginx_template = """
@@ -21,7 +21,8 @@ server {
 }
 """
 
-
+domain_regex = r'(([\da-zA-Z])([_\w-]{,62})\.){,127}(([\da-zA-Z])[_\w-]{,61})?([\da-zA-Z]\.((xn\-\-[a-zA-Z\d]+)|([a-zA-Z\d]{2,})))'
+domain_regex = '{0}$'.format(domain_regex)
 
 #This configurations will be applied
 config_data = {
@@ -32,8 +33,35 @@ config_data = {
 
 #take values from user for configurations
 port = input("Please Enter Listen port (Default: 80): ")
+
+
+#Validate Listen port
+try:
+    port=int(port)
+except (ValueError , TypeError) :
+   print("Invalid port Number")
+   port = 80
+   print("default Port implemented")
+   
+#Take Hostname
 srv_name = input("Please Enter Server Name (default: Example.com): ")
+#Validate Hostname
+srv_name_check = re.match(domain_regex,srv_name)
+
+if srv_name_check :
+    pass
+else :
+    print("invalid Hostname")
+    srv_name = "example.com"
+    print("default hostname implemented")
+#take document root
 doc_root = input("Please Enter Root Directory for virtual server (Default: /var/www/html ) : ")
+if doc_root[0] != '/' :
+    print("invalid document root")
+    doc_root = ' /var/www/html'
+    print("default hostname implemented")
+
+
 
 #check the values existance
 if port :

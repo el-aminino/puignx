@@ -26,12 +26,14 @@ def find_srv_name(dir) :
     key_list = list(list_dict.keys())
     val_list=list(list_dict.values())
     for i in key_list :
+        k = 0
         val_list=list_dict[i]
         print(val_list)
         with open (dir+'/'+i) as f :
             print(f)
-            for j in val_list:
-                print(str(f.readline(j)) , j)
+            for j in list_dict[i]:
+                print(str(f.readlines(j)) , j)
+        
 
 
                     
