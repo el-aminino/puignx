@@ -3,6 +3,31 @@ import os
 config_path = '/etc/nginx/sites-available/'
 
 
+#Check write rights for file
+def file_is_writable(config_path):
+
+
+
+    #check existance of nginx directory
+    if not os.path.exists(config_path) :
+        print(f"Directory does not exist")
+
+    
+    #save file list in var
+    config_files = os.listdir(config_path)
+    
+    for file_name in config_files:
+        file_path = os.path.join(config_path,file_name)
+
+        if os.path.isfile(file_path) and os.access(file_path, os.W_OK):
+            return True
+        else :
+            return False
+
+
+
+
+#check server-name directive in any file 
 def list_server_available(config_path):
     server_names = []
 
@@ -31,10 +56,10 @@ def list_server_available(config_path):
     return server_names
 
 
-
+#export server_name and other directives in specified file(like Port, IP, roor directory)
 def list_server_name(config_path):
+    #this dicitionary will be filled
     server_names = {}
-
     available = list_server_available("/etc/nginx/sites-enabled")
 
     #check existance of nginx directory
@@ -43,12 +68,16 @@ def list_server_name(config_path):
         return server_name
     
     
-    #save file list in var
+    #List all files in directory
     config_files = os.listdir(config_path)
+    
+
+    #Itterate over each config file
     index = 1 
     for file_name in config_files:
         file_path = os.path.join(config_path,file_name)
 
+        #check if it's file and readable 
         if os.path.isfile(file_path) and os.access(file_path, os.R_OK):
             with open(file_path, 'r') as f:
                 lines = f.readlines()
@@ -78,7 +107,6 @@ def list_server_name(config_path):
                                 port_temp = port_list[0]
                                 port_temp = port_temp[:-1]
                                 port_list[0] = port_temp
-                                print(type(port_temp))
                             port = port_list
                         else :         
                             port_list[0] = "0.0.0.0"
