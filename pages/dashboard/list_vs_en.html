@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <style>
+        table{
+            width: 70%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th,td{
+            border: 1px solid black;
+            padding: 8px;
+        }
+        th{
+            background-color: #f2f2f2;
+        }
+    </style>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List domain names</title>
+</head>
+<body style="text-align: center;">
+    <h1>List of virtual servers in config files</h1>
+    <hr>
+    <table class="lists" id="list_of_vs">
+        <tr>
+            <th>index</th>
+            <th>File Name</th>
+            <th>Server Name</th>
+            <th>IP</th>
+            <th>Port</th>
+            <th>Root</th>
+            <th>enabled</th>
+        </tr>
+
+            {% for index , config in vss.items() : %}
+            <tr>
+                <td>{{ index }}</td>
+                <td>{{ config.file_name }}</td>
+                <td>{{ config.server_name }}</td>
+                <td>{{ config.port[0] }}</td>
+                <td>{{ config.port[1] }}</td>
+                <td>{{ config.root }}</td>
+                <td>{{ config.enabled }}</td>
+            </tr>
+            
+            {% endfor %}
+    </table>
+</body>
+</html>

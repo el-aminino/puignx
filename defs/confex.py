@@ -1,7 +1,14 @@
+#importing required libraries
 import os
 import re
+
+
+
+#specify sites-enabled and sites-available directories(can be specified by user later)
 se_dir = "/etc/nginx/sites-enabled"
 sa_dir = "/etc/nginx/sites-available"
+
+
 
 def server_in_files(dir): 
     lines_dict=dict({})

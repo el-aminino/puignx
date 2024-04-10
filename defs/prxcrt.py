@@ -1,5 +1,8 @@
+#import required libraries
 import jinja2
 import subprocess
+
+#template for proxy in nginx
 nginx_template = """
 server {
     listen {{ port }};
