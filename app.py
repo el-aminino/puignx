@@ -1,6 +1,7 @@
 from flask import Flask , render_template , request, session , redirect
 import os
 import subprocess
+import re
 #from flask_socketio import SocketIO , emit ,send
 
 
@@ -52,6 +53,27 @@ def action_enable():
 
 
 
+
+@app.route('/vs_create')
+def create_vs():
+
+    return render_template('pages/dashboard/vscreate.html', writable = writable )
+
+@app.route('/act_vscreate',methods=['GET','POST'])
+def action_virtual_server_create():
+
+    if request.method == 'POST':
+        srv_name = request.form.get('srv_name')
+        port = request.form.get('port')
+        doc_root = request.form.get('doc_root')
+        
+
+
+        defs.create_virtual_server(srv_name,port,doc_root)
+
+        return "true"
+        
+        
 
 
 

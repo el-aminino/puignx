@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <style>
+        table{
+            width: 70%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th,td{
+            /*border: 1px solid black;*/
+            padding: 8px;
+        }
+        th{
+            background-color: #f2f2f2;
+        }
+        .topnav {
+        background-color: #333;
+        overflow: hidden;
+        }
+        .topnav a {
+        float: left;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+        }
+        .topnav a:hover {
+        background-color: #ddd;
+        color: black;
+        }
+        .topnav a.active {
+        background-color: #04AA6D;
+        color: white;
+        }
+        .cookies-eu-banner {
+        background: #8d0000;
+        color: #fff;
+        padding: 6px;
+        font-size: 13px;
+        text-align: center;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 10;
+        }
+
+        .cookies-eu-banner button {
+        text-decoration: none;
+        background: #8d0000;
+        color: #fff;
+        border: 1px solid #000;
+        cursor: pointer;
+        padding: 4px 7px;
+        margin: 2px 0;
+        font-size: 13px;
+        font-weight: 700;
+        transition: background 0.07s, color 0.07s, border-color 0.07s;
+        }
+
+        .cookies-eu-banner button:hover {
+        background: #fff;
+        color: #8d0000;
+        }
+
+
+    </style>
+
+    <script>
+        
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List domain names</title>
+</head>
+<body style="text-align: center;">
+    <script src="main.js"></script>
+    {% if not writable : %}
+    <div class="cookies-eu-banner">
+        You don't have sufficient permission for edditing config files. make sure you have run programm as root.
+    </div>
+    {% endif %}  
+    <div class="topnav">
+        <a class="active" href="#home">Home</a>
+        <a href="#news">News</a>
+        <a href="#contact">Contact</a>
+        <a href="#about">About</a>
+    </div> 
+
+    <h1>create virtual server</h1>
+    <hr>
+    <table>
+            <form id="this_form" method="post" action="act_vscreate">
+                <tr>
+                    <td>
+                        <label>Enter domain name :</label>
+                    </td>
+                
+                    <td>
+                        <input type="text" name="srv_name" placeholder="example.com">
+                    </td>
+                </tr>
+                <tr> 
+                    <td>
+                        <label>Enter port number :</label>
+                    </td>
+                    <td>
+                        <input type="text" name="port" placeholder="80">
+                    </td>
+                </tr>  
+                <tr>
+                    <td>
+                        <label>Enter document root:</label>
+                    </td>
+                    <td>
+                    <input type="text" name="doc_root" placeholder="/var/www/html">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                     <input type="submit" value="submit" onclick="return validateForm()"> 
+                    </td> 
+                </tr>
+            </form>
+    </table>
+    <script>
+        function validateForm(){
+            let domain = document.forms['this_form']['srv_name'].value
+            let port = document.forms['this_form']['port'].value
+            let doc_root = document.forms['this_form']['doc_root'].value
+
+            //Regex
+
+            let domainPattern = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            let portPattern = /^\d{1,5}$/;
+            let directoryPattern = /^\/[a-zAz0-9_/-]+$/
+
+            if (!domainPattern.test(domain)){
+                alert("Please enter a valid domain name!");
+                return false;
+            }
+            if (!portPattern.test(port)){
+                alert('Please enter a valid port number');
+                return false;
+            }
+            if (!directoryPattern.test(doc_root)){
+                alert("document root is invalid");
+                return false;
+            }
+            return true;
+        }
+    </script>
+
+</body>
+</html>

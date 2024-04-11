@@ -3,7 +3,7 @@ import subprocess
 import os
 import shutil
 import re
-
+#def create_virtual_server(srv_name,port,doc_root):
 #This is a Nginx config sample 
 nginx_template = """
 server {

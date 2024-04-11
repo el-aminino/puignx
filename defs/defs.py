@@ -1,5 +1,8 @@
 #import libraries
 import os
+import jinja2
+import subprocess
+import shutil
 config_path = '/etc/nginx/sites-available/'
 
 
@@ -132,6 +135,73 @@ def list_server_name(config_path):
     
     return server_names
 
+def create_virtual_server(srv_name,port,doc_root):
+    nginx_template = """
+    server {
+        listen {{ port }};
+        server_name {{ server_name }};
+        root {{ document_root }};
+        index index.html;
 
-if __name__ == '__main__':
-    print(list_server_name(config_path))
+        location / {
+            try_files $uri $uri/ =404;
+        }
+
+        access_log /var/log/nginx/{{ server_name }}.access.log;
+        error_log /var/log/nginx/{{ server_name }}.error.log;
+    }
+    """
+   
+    #This configurations will be applied
+    config_data = {
+        'port': 80,
+        'server_name': 'example.com',
+        'document_root': '/var/www/html',  
+    }
+
+    config_data['server_name'] = srv_name
+    config_data['port']= port
+    config_data['document_root']= doc_root
+
+    template = jinja2.Template(nginx_template)
+    nginx_config = template.render(config_data)
+
+    config_file_template = '/etc/nginx/sites-available/{{ server_name }}'
+    config_file_templ = jinja2.Template(config_file_template)
+
+    config_path = config_file_templ.render(server_name = srv_name)
+
+    with open(config_path, 'w') as f:
+        f.write(nginx_config)
+    
+    subprocess.run(['ln', '-s', config_path, '/etc/nginx/sites-enabled/'])
+
+
+    
+    if os.path.exists(doc_root) == False :
+        print("document root is unavailable ! it may not exist.")
+        print("Creating Directory")
+        try :
+            os.mkdir(doc_root)
+            shutil.chown(group='www-data',path=doc_root)
+        except FileNotFoundError :
+            tstr = '/'
+            root_ex = doc_root.split('/')
+            root_ex.pop(0)
+            for i in root_ex :
+                tstr = tstr+i+'/'
+                if os.path.exists(tstr) :
+                    print(tstr)
+                else:
+                    os.mkdir(tstr)
+            shutil.chown(group='www-data',path=doc_root)
+        
+        if os.path.exists(doc_root) == True :
+            print("Directory created !")
+    else :
+        shutil.chown(group='www-data',path=doc_root)
+
+
+
+    subprocess.run(['systemctl', 'reload', 'nginx'])
+
